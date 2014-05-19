@@ -1,6 +1,6 @@
 <?php
 
-namespace Pompdelux\Bundle\KrakenBundle\Controller;
+namespace Pompdelux\KrakenBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

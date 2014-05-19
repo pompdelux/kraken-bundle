@@ -1,6 +1,6 @@
 <?php
 
-namespace Pompdelux\Bundle\KrakenBundle\DependencyInjection;
+namespace Pompdelux\KrakenBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

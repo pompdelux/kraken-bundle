@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Hanzo\Bundle\KrakenBundle;
+namespace Pompdelux\KrakenBundle;
 
 use Guzzle\Service\Client;
 use Psr\Log\LoggerInterface;

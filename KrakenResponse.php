@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pompdelux\Bundle\KrakenBundle;
+namespace Pompdelux\KrakenBundle;
 
 use Guzzle\Http\Message\Response;
 
