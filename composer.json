@@ -1,0 +1,27 @@
+{
+    "name": "pompdelux/kraken-bundle",
+    "type": "symfony-bundle",
+    "description": "Integrates Kraken.io into your Symfony2 application",
+    "keywords": ["kraken", "kraken.io", "image optimization", "client", "web service", "api"],
+    "homepage": "https://github.com/pompdelux/kraken-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ulrik Nielsen",
+            "email": "un@bellcom.dk"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pompdelux/kraken-bundle/issues"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "misd/guzzle-bundle": "1.x"
+    },
+    "autoload": {
+        "psr-0": {
+            "Pompdelux\\KrakenBundle": ""
+        }
+    },
+    "target-dir": "Pompdelux/KrakenBundle"
+}

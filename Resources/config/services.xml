@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="pompdelux.kraken.service.class">Pompdelux\Bundle\KrakenBundle\Kraken</parameter>
+        <parameter key="guzzle.client.class">Guzzle\Service\Client</parameter>
+    </parameters>
+
+    <services>
+        <service id="pompdelux.kraken.guzzle.url.service" class="%guzzle.client.class%" public="false">
+            <tag name="guzzle.client"/>
+            <argument>https://api.kraken.io/v1/url</argument>
+        </service>
+        <service id="pompdelux.kraken.guzzle.upload.service" class="%guzzle.client.class%" public="false">
+            <tag name="guzzle.client"/>
+            <argument>https://api.kraken.io/v1/upload</argument>
+        </service>
+        <service id="pompdelux.kraken.guzzle.user_status.service" class="%guzzle.client.class%" public="false">
+            <tag name="guzzle.client"/>
+            <argument>https://api.kraken.io/user_status</argument>
+        </service>
+
+        <service id="pompdelux.kraken.service" class="%pompdelux.kraken.service.class%">
+            <argument type="service" id="logger"/>
+            <argument type="service" id="router"/>
+        </service>
+    </services>
+</container>
