@@ -19,8 +19,8 @@
         "misd/guzzle-bundle": "1.x"
     },
     "autoload": {
-        "psr-0": {
-            "Pompdelux\\KrakenBundle": ""
+        "psr-4": {
+            "Pompdelux\\KrakenBundle\\": ""
         }
-    }
+    },
 }
