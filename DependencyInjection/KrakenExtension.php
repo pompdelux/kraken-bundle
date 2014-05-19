@@ -37,7 +37,7 @@ class KrakenExtension extends Extension
             $def = new Definition($container->getParameter('pompdelux.kraken.service.class'));
             $def->setPublic(true);
             $def->setScope(ContainerInterface::SCOPE_CONTAINER);
-            $def->addArgument(new Reference('hanzo.kraken.guzzle.'.$settings['type'].'.service'));
+            $def->addArgument(new Reference('pompdelux.kraken.guzzle.'.$settings['type'].'.service'));
             $def->addArgument(new Reference('logger'));
             $def->addArgument(new Reference('router'));
             $def->addArgument($settings['api_key']);

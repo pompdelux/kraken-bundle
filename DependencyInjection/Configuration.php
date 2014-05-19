@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('pompdelux_kraken');
+        $rootNode = $treeBuilder->root('kraken');
 
         $rootNode
             ->children()
