@@ -15,15 +15,17 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BCCResqueWorker extends ContainerAwareJob
 {
+    public $queue = 'kraken';
+
     /**
-     * Construct
+     * Setup the job
      *
      * @param string $client Kranken client service id
      * @param string $source Public http(s) url to source image
      * @param string $target Target directory
      * @param array $sizes   Array of size dimensions.
      */
-    public function __construct($client, $source, $target, $sizes = [])
+    public function setup($client, $source, $target, $sizes = [])
     {
         $this->args['kraken'] = [
             'client' => $client,
