@@ -75,8 +75,8 @@ class BCCResqueWorker extends ContainerAwareJob
             $response = $kraken->resize($args['source'], [$size])[0];
         }
 
-        if (true === $response['success']) {
-            return $this->saveFile($response, $size);
+        if ($response->getStatus()) {
+            return $this->saveFile($response->getResponse(), $size);
         }
 
         return false;
