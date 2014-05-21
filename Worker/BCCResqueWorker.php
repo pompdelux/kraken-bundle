@@ -18,14 +18,14 @@ class BCCResqueWorker extends ContainerAwareJob
     public $queue = 'kraken';
 
     /**
-     * Setup the job
+     * Initiate the job
      *
      * @param string $client Kranken client service id
      * @param string $source Public http(s) url to source image
      * @param string $target Target directory
      * @param array $sizes   Array of size dimensions.
      */
-    public function setup($client, $source, $target, $sizes = [])
+    public function initiate($client, $source, $target, $sizes = [])
     {
         $this->args['kraken'] = [
             'client' => $client,
