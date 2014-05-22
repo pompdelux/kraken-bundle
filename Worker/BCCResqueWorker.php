@@ -15,24 +15,29 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BCCResqueWorker extends ContainerAwareJob
 {
-    public $queue = 'kraken';
-
     /**
-     * Initiate the job
+     * Construct, if parameters is not present, we are most likely in the job run process.
      *
-     * @param string $client Kranken client service id
-     * @param string $source Public http(s) url to source image
-     * @param string $target Target directory
-     * @param array $sizes   Array of size dimensions.
+     * @param string $client        Kranken client service id
+     * @param string $source        Public http(s) url to source image
+     * @param string $target        Target directory
+     * @param bool   $delete_source If set to true, the source file is deleted on success.
+     * @param array  $sizes         Array of size dimensions.
      */
-    public function initiate($client, $source, $target, $sizes = [])
+    public function __construct($client = null, $source = null, $target = null, $delete_source = false, $sizes = [])
     {
-        $this->args['kraken'] = [
-            'client' => $client,
-            'source' => $source,
-            'target' => $target,
-            'sizes'  => $sizes
-        ];
+        if (!empty($client) &&
+            !empty($source) &&
+            !empty($target)
+        ) {
+            $this->args['kraken'] = [
+                'client' => $client,
+                'source' => $source,
+                'target' => $target,
+                'delete_source' => (bool) $delete_source,
+                'sizes'  => $sizes
+            ];
+        }
     }
 
 
@@ -41,15 +46,13 @@ class BCCResqueWorker extends ContainerAwareJob
      */
     public function run($args = [])
     {
-        if (count($this->args['kraken']['sizes'])) {
-            foreach ($this->args['kraken']['sizes'] as $size) {
-                $this->handleOne($size);
-            }
-
-            return;
+        if (0 == count($this->args['kraken']['sizes'])) {
+            return $this->handleOne();
         }
 
-        $this->handleOne();
+        foreach ($this->args['kraken']['sizes'] as $size) {
+            $this->handleOne($size);
+        }
     }
 
 
@@ -118,6 +121,22 @@ class BCCResqueWorker extends ContainerAwareJob
         fclose($in);
         fclose($out);
 
+        if ($bytes) {
+            $this->deleteFile();
+        }
+
         return (bool) $bytes;
+    }
+
+    /**
+     * Delete the original source file.
+     *
+     * @return bool|void
+     */
+    protected function deleteFile()
+    {
+        if ($this->args['kraken']['delete_source']) {
+            return unlink($this->args['kraken']['source']);
+        }
     }
 }
