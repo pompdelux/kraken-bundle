@@ -46,8 +46,25 @@ This bundle allows you to integrate [kraken.io](https://kraken.io/) into your Sy
 ### Basic example:
 
 ```php
-$kraken = $this->container->get('pompdelux.kraken.service_name');
+$kraken = $container->get('pompdelux.kraken.service_name');
 $result = $kraken->squeeze('http://example.com/some/public/image.jpg');
+```
+
+### Resize image
+
+```php
+$sizes = [
+    [
+        'height' => 200,
+        'width' => 400,
+    ], [
+        'height' => 100,
+        'width' => 200,
+    ],
+];
+
+$kraken = $container->get('pompdelux.kraken.service_name');
+$results = $kraken->resize('http://example.com/some/public/image.jpg', $sizes);
 ```
 
 ### Example with callback rather than wait strategy:
@@ -73,7 +90,6 @@ acme_kraken_callback:
 ```
 
 ```php
-
 $kraken = $this->container->get('pompdelux.kraken.callback_service');
 $result = $kraken->squeeze('http://example.com/some/public/image.jpg');
 
@@ -85,4 +101,39 @@ public function callbackAction(Request $request)
     error_log(print_r($request->getContent(), 1));
     return new Response();
 }
+```
+
+## BCCResqueBundle
+
+The bundle also provides a worker for handeling kraken processing via [BCCResqueBundle](https://github.com/michelsalib/BCCResqueBundle)
+
+Jobs will be added to the `kraken` resque queue.
+
+Basic usage:
+
+```php
+use Pompdelux\KrakenBundle\Worker\BCCResqueWorker;
+
+$resque = $container->get('bcc_resque.resque');
+
+// process one file
+$job = new BCCResqueWorker('pompdelux.kraken.service_name', 'http://example.com/public/path/to/file.jps', '/target/dir/');
+$resque->enqueue($job);
+
+// process one file, delete original
+$job = new BCCResqueWorker('pompdelux.kraken.service_name', 'http://example.com/public/path/to/file.jps', '/target/dir/', true);
+$resque->enqueue($job);
+
+
+// scale one file, delete original
+$sizes = [
+    0 =>  [
+        'width'    => 200,
+        'height'   => 200,
+        'strategy' => 'auto'
+    ]
+];
+
+$job = new BCCResqueWorker('pompdelux.kraken.kraken_service_name', 'http://example.com/public/path/to/file.jps', '/target/dir/', true, $sizes);
+$resque->enqueue($job);
 ```

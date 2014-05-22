@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BCCResqueWorker extends ContainerAwareJob
 {
+    public $queue = 'kraken';
+
     /**
      * Construct, if parameters is not present, we are most likely in the job run process.
      *
